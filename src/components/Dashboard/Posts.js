@@ -1,4 +1,6 @@
+import React from 'react';
 import Post from '../../components/Post/Post'
+
 
 const Posts = (props) => { 
     const posts = props.posts.map(post => {
@@ -9,7 +11,7 @@ const Posts = (props) => {
             setSelected={()=>{props.setSelected(post.id)}}
         />
     });
-    return posts;
+  return posts;
 
 }
 

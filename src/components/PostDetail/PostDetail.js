@@ -1,17 +1,75 @@
-import React from "react";
-import './PostDetail.css'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import './PostDetail.css';
+import Comment from '../../components/Comment/Comment';
 
-const PostDetail=(props)=>{
-    const{title,author}=props.data;
-    return(
-        <div className='post_Detail'>
-            <h2>{title}</h2>
-            <h4>{author}</h4>
-            <div className='post_action'>
-                <a href='/'>Edit </a> &nbsp;&nbsp;&nbsp;
-                <a href='/'>Delete</a>
+const PostDetail = ({id, deletePost}) => {
+    const [detail, setDetail] = useState({});
+    const [comments, setComments] = useState([]);
+    useEffect(() => {
+        if (id === 0) {
+            return;
+        }
+        axios.get(`http://localhost:8080/posts/${id}/comments`)
+            .then(response => {
+                setComments(response.data);
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error.message)
+                console.log(id)
+            });
+    }, [id]);
+
+    useEffect(() => {
+        if (id === 0) {
+            return;
+        }
+        axios.get(`http://localhost:8080/posts/${id}`)
+            .then(response => {
+                setDetail(response.data);
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error.message)
+                console.log(id)
+            });
+    }, [id]);
+    const editBtnHandler = (e) => {
+        e.preventDefault();
+        console.log('Edit clicked for id : ' + id);
+    };
+    const deleteBtnHandler = (e) => {
+        e.preventDefault();
+        deletePost(id);
+    }
+
+    if (id === 0) {
+        return (
+            <div className='post-detail'>
+                <p>Select a post to see details</p>
             </div>
+        );
+    }
+    return (
+        <div className='post-detail'>
+            <h2>Title: {detail.title}</h2>
+            <h4>Author: {detail.author}</h4>
+            <p>Content: {detail.content}</p>
+            <div className='detail-action'>
+                <a href='/' onClick={editBtnHandler}>Edit </a> &nbsp; &nbsp;
+                <a href='/' onClick={deleteBtnHandler}>Delete</a>
+            </div>
+            <div>
+                Comments <br />
+                {comments.length !==0 ? comments.map(comment => {
+                    return <Comment comment={comment} />
+                }) :""}
+            </div>
+            
         </div>
-    )
-}
-export default PostDetail
+    );
+};
+
+export default PostDetail;
+
