@@ -6,9 +6,8 @@ const Comment = React.memo((props) => {
     console.log("RENDER FROM REVIEW");
     return (
 
-        <div className='Commment'>
+        <div className='Comment'>
             {props.comment}
-            <button onClick={props.buttonClicked} > Review Button</button>
         </div>
 
     );
