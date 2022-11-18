@@ -2,14 +2,12 @@ import React from 'react';
 
 import './Comment.css'
 
-const Comment = React.memo((props) => {
-    console.log("RENDER FROM REVIEW");
+const Comment = ((props) => {
     return (
 
         <div className='Comment'>
-            {props.comment}
+            {props.name}
         </div>
-
     );
 
 })
