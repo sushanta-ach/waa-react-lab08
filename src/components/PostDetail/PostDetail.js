@@ -61,9 +61,9 @@ const PostDetail = ({id, deletePost}) => {
                 <a href='/' onClick={deleteBtnHandler}>Delete</a>
             </div>
             <div>
-                Comments <br />
+                <h4>Comments</h4>
                 {comments.length !==0 ? comments.map(comment => {
-                    return <Comment comment={comment} />
+                    return <Comment key={comment.id} name={comment.name} />
                 }) :""}
             </div>
             
